@@ -27,7 +27,7 @@ app.use(cookieParser())
 
 app.use('/',require('./routes/root'))
 app.use('/users',require('./routes/UserRoutes.js'))
-//app.use('/data',require('./routes/root'))
+app.use('/data',require('./routes/DataRoutes.js'))
 
 app.all('*',(req,res) => {
     res.status(404)
