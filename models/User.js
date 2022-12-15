@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
 const AutoIncemrent = require('mongoose-sequence')(mongoose)
 const userSchema = new mongoose.Schema({
-    user :{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref: 'User'
+    username :{
+        type:String,
+        required:true
     },
     email :{
         type:String,
@@ -19,7 +18,7 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
-dataSchema.plugin(AutoIncemrent,{
+userSchema.plugin(AutoIncemrent,{
     inc_field: 'ticket',
     id :'ticketNums',
     start_seq: 500

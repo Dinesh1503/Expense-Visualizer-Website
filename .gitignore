@@ -1,3 +1,5 @@
 node_modules
 logs
 .env
+routes/DataRoutes.js
+controllers/DataControllers.js

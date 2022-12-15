@@ -6,17 +6,7 @@ const dataSchema = new mongoose.Schema({
         required:true,
         ref: 'User'
     },
-    data :[{
-        value:{
-            type:String,
-            required:true
-        },
-        date:{
-            type:String,
-            required: true
-        }
-    }],
-    total: {
+    value: {
         type:String,
         required:true
     }
