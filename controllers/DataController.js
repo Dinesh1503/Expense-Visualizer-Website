@@ -48,15 +48,16 @@ const getTotalOfUserByDay = asyncHandler(async (req,res) => {
     }
     else{
         var total = 0
+        var table = [];
         data.forEach(element => {
             var date = element["date"].split("-")
             if(date[0] == year && date[1] == month && date[2] == day)
             {
                 total = total + parseFloat(element["value"])
-                console.log(element["value"])
+                table.push({'date':element["date"],"value":element["value"]});
             }           
         });
-        res.status(200).json({"total":total})
+        res.status(200).json({"total":total,"table":table})
     }
 
 })
@@ -80,16 +81,17 @@ const getTotalOfUserByMonth = asyncHandler(async (req,res) => {
     }
     else{
         var total = 0
-        
+        var table = [];
         data.forEach(element => {
             var date = element["date"].split("-")
             console.log(date[0]," ",date[1])
             if(date[0] == year && date[1] == month)
             {
                 total = total + parseFloat(element["value"])
+                table.push({'date':element["date"],"value":element["value"]});
             }           
         });
-        res.status(200).json({"total":total})
+        res.status(200).json({"total":total,"table":table})
     }
 
 })
@@ -113,14 +115,16 @@ const getTotalOfUserByYear = asyncHandler(async (req,res) => {
     }
     else{
         var total = 0
+        var table = [];
         data.forEach(element => {
             var date = element["date"].split("-")
             if(date[0] == year)
             {
                 total = total + parseFloat(element["value"])
+                table.push({'date':element["date"],"value":element["value"]});
             }           
         });
-        res.status(200).json({"total":total})
+        res.status(200).json({"total":total,"table":table});
     }
 
 })
