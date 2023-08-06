@@ -8,4 +8,7 @@ router.route('/')
 .patch(UserController.updateUser)
 .delete(UserController.deleteUser)
 
+router.route('/verify')
+.post(UserController.verify_user)
+
 module.exports = router

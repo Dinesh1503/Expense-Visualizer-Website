@@ -17,6 +17,24 @@ const getAllUsers = asyncHandler(async (req,res) => {
 
 })
 
+const verify_user = asyncHandler(async (req,res) => {
+    const {username,email,password} = req.body
+    if(!username || !password || !email)
+    {
+        return res.status(400).json({message:"Enter All Fields"})
+    }
+    const user = await User.findOne({username,password,email}).lean().exec()
+
+    if(!user)
+    {
+         return res.status(400).json({message: `User not found`})
+    }
+    else
+    {
+        return res.status(200).json({message: `User Verified`})
+    }
+})
+
 
 // @desc Create New User
 // @route POST /users
@@ -121,6 +139,7 @@ const deleteUser = asyncHandler(async (req,res) => {
 
 module.exports = {
     getAllUsers,
+    verify_user,
     createNewUser,
     updateUser,
     deleteUser
