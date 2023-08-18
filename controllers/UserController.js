@@ -18,20 +18,22 @@ const getAllUsers = asyncHandler(async (req,res) => {
 })
 
 const verify_user = asyncHandler(async (req,res) => {
-    const {username,email,password} = req.body
-    if(!username || !password || !email)
+    const {username,password} = req.body
+    if(!username || !password)
     {
-        return res.status(400).json({message:"Enter All Fields"})
+        return res.status(400).json({message:"Enter All Fields", success:false})
     }
-    const user = await User.findOne({username,password,email}).lean().exec()
+
+    const hashedPwd = await bcrypt.hash(password,10)
+    const user = await User.findOne({username,hashedPwd}).lean().exec()
 
     if(!user)
     {
-         return res.status(400).json({message: `User not found`})
+         return res.status(400).json({message: `User not found`,sucess:false})
     }
     else
     {
-        return res.status(200).json({message: `User Verified`})
+        return res.status(200).json({message: `User Verified`, success:true})
     }
 })
 
@@ -60,11 +62,11 @@ const createNewUser = asyncHandler(async (req,res) => {
     const user = await User.create(userObject)   
     if(user)
     {
-        res.status(201).json({message:`New User ${username} created`})
+        res.status(201).json({message:`New User ${username} created`, success:true})
     }
     else
     {
-        res.status(400).json({message: `Invalid User Data recieved`})
+        res.status(404).json({message: `Invalid User Data recieved`})
     }
 
 })

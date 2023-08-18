@@ -156,7 +156,7 @@ const getTotalOfUser = asyncHandler(async (req,res) => {
  }) 
 
 const addData = asyncHandler(async (req,res) => {
-    const {username, value} = req.body
+    const {username, value, date} = req.body
     if (!username || !value) {
         return res.status(400).json({ message: 'All fields are required' })
     }
@@ -167,15 +167,28 @@ const addData = asyncHandler(async (req,res) => {
         res.status(400).json({message:`User not found`})
     }
 
-    const date = dayjs()
-    const dataObject = {user:user,value:value,date:date.format("YYYY-MM-DD").toString()}
-    const data = await Data.create(dataObject)
-    if(data)
-    {
-        return res.status(201).json({ message: 'Data Added' })
-    } else {
-        return res.status(400).json({ message: 'Invalid Data received' })
+    if(!date){
+        const date = dayjs()
+        const dataObject = {user:user,value:value,date:date.format("YYYY-MM-DD").toString()}
+        const data = await Data.create(dataObject)
+        if(data)
+        {
+            return res.status(201).json({ message: 'Data Added' })
+        } else {
+            return res.status(400).json({ message: 'Invalid Data received' })
+        }
     }
+    else{
+        const dataObject = {user:user,value:value,date:date}
+        const data = await Data.create(dataObject)
+        if(data)
+        {
+            return res.status(201).json({ message: 'Data Added' })
+        } else {
+            return res.status(400).json({ message: 'Invalid Data received' })
+        }
+    }
+    
 
 })
 
