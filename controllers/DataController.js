@@ -7,11 +7,10 @@ const getAllData = asyncHandler(async (req,res) => {
     const {username} = req.body
     if(!username)
     {
-        res.status(404).json({message:"Username Required"})
+        res.status(404).json({message:"1 Username Required"})
     }
     const user = await User.find({username:username}).exec()
     const data = await Data.find({user:user}).exec()
-
     // if(!data?.length)
     // {
     //     res.status(400).json({message:`No Data Available`})
@@ -33,7 +32,7 @@ const getTotalOfUserByDay = asyncHandler(async (req,res) => {
     const {username,month,year,day} = req.body
     if(!username || ! month || !year || !day)
     {
-        res.status(404).json({message:"All fields Required"})
+        res.status(404).json({message:"2 All fields Required"})
     }
     const user = await User.find({username:username}).exec()
     if(!user)
@@ -66,7 +65,7 @@ const getTotalOfUserByMonth = asyncHandler(async (req,res) => {
     const {username,month,year} = req.body
     if(!username || ! month || !year)
     {
-        res.status(404).json({message:"All fields Required"})
+        res.status(404).json({message:"3 All fields Required"})
     }
     const user = await User.find({username:username}).exec()
     if(!user)
@@ -100,7 +99,7 @@ const getTotalOfUserByYear = asyncHandler(async (req,res) => {
     const {username,month,year,day} = req.body
     if(!username || !year)
     {
-        res.status(404).json({message:"All fields Required"})
+        res.status(404).json({message:"4 All fields Required"})
     }
     const user = await User.find({username:username}).exec()
     if(!user)
@@ -133,7 +132,7 @@ const getTotalOfUser = asyncHandler(async (req,res) => {
     const {username} = req.body
     if(!username)
     {
-        res.status(404).json({message:"Username Required"})
+        res.status(404).json({message:"5 Username Required"})
     }
     const user = await User.find({username:username}).exec()
     if(!user)
@@ -158,7 +157,7 @@ const getTotalOfUser = asyncHandler(async (req,res) => {
 const addData = asyncHandler(async (req,res) => {
     const {username, value, date} = req.body
     if (!username || !value) {
-        return res.status(400).json({ message: 'All fields are required' })
+        return res.status(400).json({ message: '1 All fields are required' })
     }
 
     const user = await User.findOne({username}).lean().exec()
@@ -193,24 +192,26 @@ const addData = asyncHandler(async (req,res) => {
 })
 
 const deleteData = asyncHandler(async (req,res) => {
-    const {username,value} = req.body
-
-    if(!username || !value)
+    const {username,_id} = req.body
+    
+    console.log('Delete data called');
+    
+    if(!username || !_id)
     {
-        return res.status(400).json({ message: 'All fields are required' })
+        return res.status(400).json({ message: '7 All fields are required username: '+username+_id })
     }
     const user = await User.findOne({username}).lean().exec()
     if(!user)
     {
         res.status(400).json({message:`User not found`})
     }
-    const data = await Data.findOneAndDelete({user:user,value:value}).exec()
+    const data = await Data.findOneAndDelete({user:user,_id:_id}).exec()
     
     if(data)
     {
         return res.status(201).json({ message: 'Data Deleted' })
     } else {
-        return res.status(400).json({ message: 'No Data to Delete Data, all data deleted' })
+        return res.status(400).json({ message: 'Data not found' })
     }
 
 })
